@@ -1,0 +1,211 @@
+<div class="container">
+<div class="row" style="padding-top:15px;">
+    <div class="col-xs-12 col-md-4" style="padding-top:5px;">
+    <div class="pull-left">
+    <h5>Results:</h5>
+    </div> <!-- left -->
+    <div class="pull-left">
+     <ul class="nav nav-pills inside" role="tablist" style="font-size:11px; margin-bottom:10px; border:1px solid #e7e7e7">
+     <li role="presentation"><a href="#standings" aria-controls="home" role="tab" data-toggle="tab" style="padding:8px 10px;" aria-expanded="true">Standings</a></li>
+     <li role="presentation"><a href="#playoffs" aria-controls="profile" role="tab" data-toggle="tab" style="padding:8px 10px;" aria-expanded="true">Playoffs</a></li>
+    <li role="presentation" class="active"><a href="#schedule" aria-controls="profile" role="tab" data-toggle="tab" style="padding:8px 10px;" aria-expanded="true">Schedule</a></li>
+   </ul>
+    </div> <!-- left -->
+     <div class="tab-content">
+     <div role="tabpanel" class="tab-pane fade in " id="standings">
+        <table class="table table-bordered" style="font-size:11px;">
+       <thead>
+         <tr style="color: black ; background-color:#e7e7e7;">
+           <th> RK  </th>
+           <th> TEAM </th>
+           <th> W-L-T  </th>
+           <th> WIN%  </th>
+ 
+ 
+         </tr>
+         </thead>
+ 
+                     <tbody>
+                      <tr *ngFor="let r of ranking" [ngClass]="{'myTeam': r.team.id == myTeam}">
+                        <td>{{r.place}}</td>
+                        <!-- <td>{{r.team.name}}  class="myTeam" </td>-->
+                        <td>{{r.team.name}}</td> 
+                        <td>{{r.wins["total"]}}-{{r.loses["total"]}}-{{r.ties["total"]}}</td>
+                        <td>{{r.percentage}}</td>
+                      </tr> 
+         </tbody></table>
+     </div> <!-- tabpanel -->
+         <div role="tabpanel" class="tab-pane fade in" id="playoffs">
+        <table class="table table-bordered" style="font-size:11px;">
+       
+                 <thead *ngIf="playoffMatchups.length>3">
+                     <tr style="color: black ;">
+                         <th class="align-left" colspan="6">
+                             Quarterfinal
+                             
+                             <span style="float:right">
+                                 Week {{playoffWeeks["q"]}}
+                             </span>
+                         </th>
+ 
+                     </tr>
+ 
+                     <tr style="color: black ; background-color:#e7e7e7;">
+                         <th> RK  </th>
+                         <th> TEAM </th>
+                         <th colspan="2"> RESULT  </th>
+                         <th> TEAM </th>
+                         <th> RK</th>
+ 
+                     </tr>
+                 </thead>
+           <tbody *ngIf="playoffMatchups.length>3">
+                <tr *ngFor="let m of playoffMatchups" [ngClass]="{'myTeam': m.team1 == myTeam || m.team2 == myTeam}">
+                    <td *ngIf = "m.week == playoffWeeks['q']">{{m.team1place}}</td>
+                    <td *ngIf = "m.week == playoffWeeks['q']">{{m.team1name}}</td>
+                    <td *ngIf = "m.week == playoffWeeks['q']">{{m.team1score}}</td>
+                    <td *ngIf = "m.week == playoffWeeks['q']">{{m.team2score}}</td>
+                    <td *ngIf = "m.week == playoffWeeks['q']">{{m.team2name}}</td>
+                    <td *ngIf = "m.week == playoffWeeks['q']">{{m.team2place}}</td>
+                    </tr>   
+                 </tbody>
+            <thead  *ngIf="playoffMatchups.length>1">
+                     <tr style="color: black ;">
+                         <th class="align-left" colspan="6">
+                             Semifinal 
+                             
+                             <span style="float:right">
+                                 Week {{playoffWeeks ? playoffWeeks["s"]:''}}
+                             </span>
+                         </th>
+ 
+                     </tr>
+ 
+                     <tr style="color: black ; background-color:#e7e7e7;">
+                         <th> RK  </th>
+                         <th> TEAM </th>
+                         <th colspan="2"> RESULT  </th>
+                         <th> TEAM </th>
+                         <th> RK</th>
+ 
+                     </tr>
+                 </thead>
+           <tbody  *ngIf="playoffMatchups.length>1">
+                <tr *ngFor="let m of playoffMatchups" [ngClass]="{'myTeam': m.team1 == myTeam || m.team2 == myTeam}">
+                        <td *ngIf = "m.week == playoffWeeks['s']">{{m.team1place}}</td>
+                        <td *ngIf = "m.week == playoffWeeks['s']">{{m.team1name}}</td>
+                        <td *ngIf = "m.week == playoffWeeks['s']">{{m.team1score}}</td>
+                        <td *ngIf = "m.week == playoffWeeks['s']">{{m.team2score}}</td>
+                        <td *ngIf = "m.week == playoffWeeks['s']">{{m.team2name}}</td>
+                        <td *ngIf = "m.week == playoffWeeks['s']">{{m.team2place}}</td>
+                        </tr>  
+                 </tbody>
+                 <thead *ngIf="playoffMatchups.length>0">
+                     <tr style="color: black ;">
+                         <th class="align-left" colspan="6">
+                             Final 
+                             
+                             <span style="float:right">
+                                 Week {{playoffWeeks ? playoffWeeks["f"]:''}}
+                             </span>
+                         </th>
+ 
+                     </tr>
+ 
+                     <tr style="color: black ; background-color:#e7e7e7;">
+                         <th> RK  </th>
+                         <th> TEAM </th>
+                         <th colspan="2"> RESULT  </th>
+                         <th> TEAM </th>
+                         <th> RK</th>
+ 
+                     </tr>
+                 </thead>
+           <tbody  *ngIf="playoffMatchups.length>0">
+                <tr *ngFor="let m of playoffMatchups" [ngClass]="{'myTeam': m.team1 == myTeam || m.team2 == myTeam}">
+                        <td *ngIf = "m.week == playoffWeeks['f']">{{m.team1place}}</td>
+                        <td *ngIf = "m.week == playoffWeeks['f']">{{m.team1name}}</td>
+                        <td *ngIf = "m.week == playoffWeeks['f']">{{m.team1score}}</td>
+                        <td *ngIf = "m.week == playoffWeeks['f']">{{m.team2score}}</td>
+                        <td *ngIf = "m.week == playoffWeeks['f']">{{m.team2name}}</td>
+                        <td *ngIf = "m.week == playoffWeeks['f']">{{m.team2place}}</td>
+                        </tr>  
+         </tbody></table>
+     </div> <!-- tabpanel -->
+    <div role="tabpanel" class="tab-pane fade in active" id="schedule">
+     <table class="table table-bordered" style="font-size:11px;">
+       <thead>
+         <tr style="color: black ; background-color:#e7e7e7;">
+           <th> WEEK  </th>
+           <th> OPPONENT </th>
+           <th> RESULT  </th>
+           <th> SCORE  </th>
+         
+         </tr>
+         </thead>
+          <tbody>
+              <tr *ngFor="let matchup of myMatchups" [ngClass]="{'over20': matchup.result == 'Win', 'under20': matchup.result == 'Loss'}">
+                <td>{{matchup.week}}</td>
+                <td>{{matchup.opponent}}</td>
+                <td>{{matchup.result}}</td>
+                <td>{{matchup.myScore}}-{{matchup.opponentScore}}</td>
+              </tr>     
+         </tbody></table>
+    </div> <!-- tabpanel -->
+   </div> <!-- tab content -->
+ 
+    
+    </div> <!-- col -->
+   <div class="col-xs-12 col-md-8" style="padding-top:5px;">
+    <div class="pull-left">
+   <h5>Team stats:&nbsp;</h5>
+   </div> 
+    <div class="pull-left">
+    <ul class="nav nav-pills inside" role="tablist" style="font-size:11px; margin-bottom:10px; border:1px solid #e7e7e7">
+     <li role="presentation" class=""><a href="#wins" aria-controls="home" role="tab" data-toggle="tab" style="padding:8px 10px;" aria-expanded="true">Win-Loss</a></li>
+     <li role="presentation" class="active"><a href="#totals" aria-controls="profile" role="tab" data-toggle="tab" style="padding:8px 10px;" aria-expanded="true">Totals</a></li>
+   </ul>
+    </div>
+    <div class="tab-content">
+     <div role="tabpanel" class="tab-pane fade" id="wins">
+    <table class="table table-bordered" style="font-size:11px;" id="tableResultDetails">
+       <thead>
+         <tr style="color: black ; background-color:#e7e7e7;">
+           <th> TEAM  </th>
+         
+           <th *ngFor="let category of cats">{{category.name}}</th> 
+            </tr>
+         </thead>
+         <tbody>
+            <tr *ngFor="let r of ranking" [ngClass]="{'myTeam': r.team.id == myTeam}">
+                <td>{{r.team.name}}</td> 
+                <td *ngFor="let category of cats">{{r.wins[category.name]}}-{{r.loses[category.name]}}-{{r.ties[category.name]}}</td> 
+              </tr> 
+         </tbody></table>
+         </div> <!-- tab panel -->
+    
+     <div role="tabpanel" class="tab-pane fade in active" id="totals">
+      <table class="table table-bordered" style="font-size:11px;" id="tableTotalStats">
+       <thead>
+         <tr style="color: black ; background-color:#e7e7e7;">
+           <th> TEAM  </th>
+           <th *ngFor="let category of cats">
+                <a href="javascript:void(0)"  (click)="sortBy('totals.' + category.name)">{{category.name}}</a>
+           </th> </tr>
+         </thead>
+         <tbody>
+            <tr *ngFor="let r of ranking | orderBy : [currentSortOrder + currentSortProperty]" [ngClass]="{'myTeam': r.team.id == myTeam}">
+                <td>{{r.team.name}}</td> 
+                <td *ngFor="let category of cats">{{r.totals[category.name]}}
+                  <span *ngIf="category.name == 'FG%'"> ({{r.ratioElements["FG"]}}/{{r.ratioElements["FGA"]}})</span>
+                  <span *ngIf="category.name == 'FT%'"> ({{r.ratioElements["FT"]}}/{{r.ratioElements["FTA"]}})</span> 
+                  <span *ngIf="category.name == 'ATO'"> ({{r.ratioElements["AST"]}}/{{r.ratioElements["TO"]}})</span>
+                </td> 
+              </tr> 
+         </tbody></table>
+     </div><!-- tab panel -->
+     </div> <!-- tab content -->
+   
+   </div> <!-- col -->
+   </div> <!-- row -->
+   </div>

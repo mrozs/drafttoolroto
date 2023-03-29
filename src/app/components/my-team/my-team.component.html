@@ -1,0 +1,48 @@
+
+        <div class="table-responsive">
+          <table class="table table-bordered" style="text-align:center;">
+            <tr>
+              <th></th>
+              <th>Player</th>
+              <th>Position</th>
+              <ng-container *ngFor="let category of draft.categories">
+                <th>{{ category.name }}</th>
+              </ng-container>
+              <th>Value</th>
+              <th *ngIf="draft.showRankingPrice">Price</th>
+            </tr>
+            <ng-container *ngFor="let player of selectedTeamPlayers; let i = index" [attr.data-index]="i">
+              <tr>
+                <td> {{ i + 1 }}</td>
+                <td>{{ player.name }}</td>
+                <td>{{ player.position }}</td>
+                <ng-container *ngFor="let category of draft.categories">
+                  <td title="{{ player.statistics[category.property] }}"> {{ player.statistics[category.property] | number: '1.2-2' }}</td>
+                </ng-container>
+                <td>{{ player.value | number: '1.2-2' }}</td>
+                <td *ngIf="draft.showRankingPrice">{{ player.price }}$</td>
+              </tr>
+            </ng-container>
+
+            <tr style="border-top:2px solid #666; font-weight:bold;">
+              <td colspan="3" style="text-align: right; padding-right:5px;">Average</td>
+              <ng-container *ngFor="let category of draft.categories">
+                <th class="{{ selectedTeamAverages[category.name + 'class'] }}" title="{{ category.name }} team average">{{ selectedTeamAverages[category.name] }}</th>
+              </ng-container>
+              <!-- <td>Roto points</td>
+              <td>Rank</td> -->
+            </tr>
+            <tr style="font-weight:bold;">
+              <td colspan="3" style="background-color: #a2ff9d;text-align: right;padding-right:5px;">My league category power ranking (AVG)</td>
+              <ng-container *ngFor="let category of draft.categories">
+                <th>{{ selectedTeamAverageRanks[category.name] }}</th>
+              </ng-container>
+            </tr>
+            <tr style="font-weight:bold;">
+              <td colspan="3" style="text-align: right; padding-right:5px;">Projected matchup result summary</td>
+              <ng-container *ngFor="let category of draft.categories">
+                <th>{{ selectedTeamAverageMatchupResults[category.name] }}</th>
+              </ng-container>
+            </tr> 
+          </table>
+        </div>
