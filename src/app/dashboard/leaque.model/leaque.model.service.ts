@@ -1,11 +1,13 @@
+
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Draft } from '../draft';
+import { map } from 'rxjs/operators';
 import { BaseService } from '../../base.service';
+import { Draft } from '../draft';
 
 @Injectable()
 export class LeaqueModelService extends BaseService {
-  constructor(private http: Http) { 
+  constructor(private http: HttpClient) { 
     super();
   }
 
@@ -17,10 +19,10 @@ export class LeaqueModelService extends BaseService {
       `AddPoints=true`;
 
     return this.http
-      .get(url)
-      .map((res: Response) => {
+      .get(url).pipe(
+      map((res: Response) => {
         return res.json();
-      })
+      }))
       .toPromise();
   }
 }

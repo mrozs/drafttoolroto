@@ -4,13 +4,13 @@ import { TeamDefinition } from './team.definition';
 import { Categories } from './categories';
 import { Category } from './category'
 import { Cookie } from 'ng2-cookies';
-import { Http, Response } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
 import * as queryString from 'query-string';
 import { BaseService } from '../base.service';
 
 @Injectable()
 export class DraftService extends BaseService {
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     super();
    }
 
@@ -95,7 +95,7 @@ export class DraftService extends BaseService {
             .get(leagueSettingsUrl, { withCredentials: true })
             .toPromise();
 
-          Promise.all([leagueSettingsPromise, leagueTeamsPromise]).then(results => {
+          Promise.all([leagueSettingsPromise, leagueTeamsPromise]).then((results: any) => {
             const leagueSettings = results[0].json();
             startParameters.activeTeamSize = leagueSettings.rosterActive;
             startParameters.teamSize = leagueSettings.rosterActive + leagueSettings.rosterBench;
@@ -151,7 +151,7 @@ export class DraftService extends BaseService {
           .toPromise();
 
         return new Promise<Draft>(resolve => {
-          Promise.all([leagueSettingsPromise, leagueTeamsPromise]).then(results => {
+          Promise.all([leagueSettingsPromise, leagueTeamsPromise]).then((results: any) => {
             const leagueSettings = results[0].json();
             startParameters.activeTeamSize = leagueSettings.rosterActive;
             startParameters.teamSize = leagueSettings.rosterActive + leagueSettings.rosterBench;
@@ -199,7 +199,7 @@ export class DraftService extends BaseService {
         .toPromise();
 
       return new Promise<Draft>(resolve => {
-        Promise.all([leagueSettingsPromise, leagueTeamsPromise]).then(results => {
+        Promise.all([leagueSettingsPromise, leagueTeamsPromise]).then((results: any) => {
           const leagueSettings = results[0].json();
           startParameters.leagueName = leagueSettings.Name;
           startParameters.categoriesFlags = leagueSettings.settings;

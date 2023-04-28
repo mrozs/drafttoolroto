@@ -1,5 +1,5 @@
-﻿import { Component, NgZone, ViewChild, ElementRef, Renderer2 } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
+
+import { Component, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { Player } from './dashboard/player/player'
 import { Draft } from './dashboard/draft'
 import { PuntCategories } from './dashboard/punt.categories';
@@ -27,6 +27,7 @@ import { LeagueCalendarGame } from './dashboard/league.calendar/league.calendar.
 import { LeaguePlayoffCalculator } from './dashboard/h2hresult/league.playoff.calculator';
 import { LeagueModelTeam } from './dashboard/leaque.model/league.model.team';
 import { PlayerUnknownService } from './dashboard/player/player.unknown.service';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'app-component',
@@ -107,8 +108,8 @@ export class DashboardComponent {
     this.excludePlayers = this.excludePlayersChecked = false;
     this.includeMyProjections = this.includeMyProjectionsChecked = false;
 
-    this.rankingCombinationCalculator = new RankingCombinationCalculator();
-    this.rankingCombinationCalculator.onmessage = (event) => {
+    // this.rankingCombinationCalculator = new RankingCombinationCalculator();
+    /* this.rankingCombinationCalculator.onmessage = (event) => {
       this.ngZone.run(() => {
 //        this.loading = true;
         // this.playerCombinations = PlayerCombinationsAdapter.adapt(event.data.combinations);
@@ -174,7 +175,7 @@ export class DashboardComponent {
           this.el.nativeElement.click();
         }
       });
-    };
+    }; */
 
     this.initialize();
   }
@@ -239,7 +240,7 @@ export class DashboardComponent {
         
 
         if (!this.draft.custom) {
-          Observable.timer(0, 120000).subscribe(() => {
+          timer(0, 120000).subscribe(() => {
             if (!this.draftFinished)
               this.refreshDraftResult();
           });
