@@ -1,17 +1,18 @@
+
 import { Injectable } from '@angular/core';
-import { DraftResult } from './draft.result';
+import { HttpClient  } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { BaseService } from '../../base.service';
+import { Draft } from '../draft';
 import { Player } from '../player/player';
 import { TeamDefinition } from '../team.definition';
-import { Http, Response } from '@angular/http';
-import { Draft } from '../draft';
-import { TeamPlayers } from '../team.players';
-import { BaseService } from '../../base.service';
+import { DraftResult } from './draft.result';
 
 
 @Injectable()
 export class DraftResultService extends BaseService {
     private draftResults = new Array<DraftResult>();
-    constructor(private http: Http) { 
+    constructor(private http: HttpClient) { 
         super();
     }
 
@@ -22,10 +23,10 @@ export class DraftResultService extends BaseService {
         url = this.GetBaseUrl()  +  `/Draft/SaveCustomDraftPick`;
 
         return this.http
-        .post(url, body)
-        .map((res: Response) => {
+        .post(url, body).pipe(
+        map((res: Response) => {
             return res;
-        }).subscribe();
+        })).subscribe();
     }
 
     getCustomDraftResult(draft: Draft, players: Array<Player>, teamDefinitions: Array<TeamDefinition>): Promise<Array<DraftResult>> {
@@ -34,8 +35,8 @@ export class DraftResultService extends BaseService {
         url = this.GetBaseUrl() +  `/Draft/GetCustomLeagueDraftResults?leagueKey=${draft.leagueName}`;
        
         return this.http
-        .get(url)
-        .map((res: Response) => {
+        .get(url).pipe(
+        map((res: any) => {
             let unknownPlayers = new Array<number>();
             let picks = new Array<DraftResult>();
             for (let pick of res.json()) {
@@ -58,7 +59,7 @@ export class DraftResultService extends BaseService {
             }
             
             return picks;
-        }).
+        })).
         toPromise();
     }
 
@@ -85,8 +86,8 @@ export class DraftResultService extends BaseService {
         unknownPlayerUrl = this.GetBaseUrl() +  '/players/getplayerdetails?nbaplayerid=';
 
         return this.http
-            .get(url)
-            .map((res: Response) => {
+            .get(url).pipe(
+            map((res: any) => {
                 let unknownPlayers = new Array<number>();
                 let picks = new Array<DraftResult>();
                 //console.log(res["_body"]);
@@ -127,7 +128,7 @@ export class DraftResultService extends BaseService {
                 }
                 
                 return picks;
-            }).
+            })).
             toPromise();
     }
 }

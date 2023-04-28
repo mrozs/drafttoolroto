@@ -1,15 +1,17 @@
+
 import { Injectable } from '@angular/core';
-import { Player } from './player';
+import { map } from 'rxjs/operators';
 import { Draft } from '../draft';
-import { Http, Response } from '@angular/http';
 import { PuntCategories } from '../punt.categories';
+import { Player } from './player';
 import { PlayerAdapter } from './player.adapter';
-import 'rxjs/add/operator/map';
+
+import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../../base.service';
 
 @Injectable()
 export class PlayerService extends BaseService {
-  constructor(private http: Http) { 
+  constructor(private http: HttpClient) { 
     super();
   }
 
@@ -20,8 +22,8 @@ export class PlayerService extends BaseService {
       `withMyProjections=${draft.includeProjections}&puntCats=${puntCategories.puntCategoriesFlags()}`;
 
     return this.http
-      .get(url)
-      .map((res: Response) => {
+      .get(url).pipe(
+      map((res: any) => {
         
         let players = new Array<Player>();
         let rawPlayers = JSON.parse(res.json());
@@ -32,7 +34,7 @@ export class PlayerService extends BaseService {
         }
 
         return players;
-      })
+      }))
       .toPromise();
   }
 }

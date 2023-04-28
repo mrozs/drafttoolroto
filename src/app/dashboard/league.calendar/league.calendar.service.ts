@@ -1,11 +1,12 @@
+
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
-import { Draft } from '../draft';
+import { map } from 'rxjs/operators';
 import { BaseService } from '../../base.service';
 
 @Injectable()
 export class LeagueCalendarService extends BaseService {
-  constructor(private http: Http) { 
+  constructor(private http: HttpClient) { 
     super();
   }
 
@@ -13,10 +14,10 @@ export class LeagueCalendarService extends BaseService {
     let url = this.GetBaseUrl() +  `/H2HTools/GetH2HCalendar`;
 
     return this.http
-      .get(url)
-      .map((res: Response) => {
+      .get(url).pipe(
+      map((res: Response) => {
         return res.json();
-      })
+      }))
       .toPromise();
   }
 }

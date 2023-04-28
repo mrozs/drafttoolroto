@@ -1,7 +1,7 @@
 ﻿import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpModule } from '@angular/http';
+
 import { Location } from '@angular/common';
 import { DashboardComponent } from './app.component';
 
@@ -13,10 +13,11 @@ import { DraftService } from './dashboard/draft.service';
 import { LeaqueModelService } from './dashboard/leaque.model/leaque.model.service';
 import { LeagueCalendarService } from './dashboard/league.calendar/league.calendar.service';
 import { PositiveNumberPipe } from './positive.number.filter'
-import { PlayerFilter } from './player.filter';
 import { OrderByPipe } from './orderBy';
 import { StandingsComponent } from './components/standings/standings.component';
 import { MyTeamComponent } from './components/my-team/my-team.component';
+import { HttpClientModule } from '@angular/common/http';
+import { PlayerFilter } from 'environments/player.filter';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { MyTeamComponent } from './components/my-team/my-team.component';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpClientModule
   ],
   providers: [PlayerService, DraftService, LeaqueModelService, LeagueCalendarService, DraftResultService, PlayerUnknownService],
   bootstrap: [DashboardComponent],
