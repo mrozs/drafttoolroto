@@ -1,12 +1,14 @@
+
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
 import { Player } from './player';
-import { Http, Response } from '@angular/http';
-import 'rxjs/add/operator/map';
+
+import { HttpClient } from '@angular/common/http';
 import { BaseService } from '../../base.service';
 
 @Injectable()
 export class PlayerUnknownService extends BaseService {
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
     super();
    }
 
@@ -14,8 +16,8 @@ export class PlayerUnknownService extends BaseService {
     let url = this.GetBaseUrl()    +  `/players/getplayerdetails?nbaplayerid=${playerId}`;
 
     return this.http
-      .get(url)
-      .map((res: Response) => {
+      .get(url).pipe(
+      map((res: Response) => {
                
         let player = new Player();
 
@@ -72,7 +74,7 @@ export class PlayerUnknownService extends BaseService {
               }
 
         return player;
-      })
+      }))
       .toPromise();
   }
 }
