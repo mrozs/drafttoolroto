@@ -1,22 +1,19 @@
-import { Team } from './../team';
-import { LeagueCalendar } from './../league.calendar/league.calendar';
-import { Player } from './../player/player';
-import { H2HResult } from './h2hresult';
-import { TeamRanking } from '../team.ranking';
-import { TeamPlayers } from '../team.players';
-import { Draft } from './../draft';
+import * as Enumerable from 'linq-es2015';
 import { Category } from '../category';
-import { H2HResultMatchupCalculator } from '../h2hresult/h2hresult.matchup.calculator';
-import { H2hResultMatchup } from '../h2hresult/h2hresult.matchup';
-import { H2HResultPlayoffs } from '../h2hresult/h2hresult.playoffs';
-import { H2HResultCatCalculator } from '../h2hresult/h2hresult.cat.calculator';
-import { DraftResults } from './../draft.result/draft.results'
-import { DraftResult } from './../draft.result/draft.result'
-import * as Enumerable from "linq-es2015"; 
-import { LeagueCalendarGame } from '../league.calendar/league.calendar.game';
-import { Slot } from './../h2hresult/h2hresult.slot'
-import { TeamPlayoffGames } from '../league.calendar/team.playoff.games';
 import { DraftResultItem } from '../draft.result/draft.result.item';
+import { H2HResultCatCalculator } from '../h2hresult/h2hresult.cat.calculator';
+import { H2hResultMatchup } from '../h2hresult/h2hresult.matchup';
+import { H2HResultMatchupCalculator } from '../h2hresult/h2hresult.matchup.calculator';
+import { H2HResultPlayoffs } from '../h2hresult/h2hresult.playoffs';
+import { LeagueCalendarGame } from '../league.calendar/league.calendar.game';
+import { TeamRanking } from '../team.ranking';
+import { Draft } from './../draft';
+import { DraftResult } from './../draft.result/draft.result';
+import { DraftResults } from './../draft.result/draft.results';
+import { Slot } from './../h2hresult/h2hresult.slot';
+import { Player } from './../player/player';
+import { Team } from './../team';
+import { H2HResult } from './h2hresult';
 
 export class H2HResultCalculator {
     h2HResultCatCalculator: H2HResultCatCalculator;

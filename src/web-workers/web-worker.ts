@@ -1,34 +1,12 @@
-import 'core-js/es6/symbol';
-import 'core-js/es6/object';
-import 'core-js/es6/function';
-import 'core-js/es6/parse-int';
-import 'core-js/es6/parse-float';
-import 'core-js/es6/number';
-import 'core-js/es6/math';
-import 'core-js/es6/string';
-import 'core-js/es6/date';
-import 'core-js/es6/array';
-import 'core-js/es6/regexp';
-import 'core-js/es6/map';
-import 'core-js/es6/set';
-import 'core-js/es7/array';
-
-import { PlayerCombinationsFinder } from '../app/dashboard/combination/player.combinations.finder';
-import { TeamRankingCalculator } from '../app/dashboard/team.ranking.calculator';
-import { LeagueCalendar } from '../app/dashboard/league.calendar/league.calendar';
-import { LeagueCalendarAdapter } from '../app/dashboard/league.calendar/league.calendar.adapter';
-import { Team } from '../app/dashboard/team';
-import { TeamPlayers } from '../app/dashboard/team.players';
-import { TeamPlayersAdapter } from '../app/dashboard/team.players.adapter';
+import { Draft } from '../app/dashboard/draft';
 import { H2HResult } from '../app/dashboard/h2hresult/h2hresult';
 import { H2HResultCalculator } from '../app/dashboard/h2hresult/h2hresult.calculator';
-import { Draft } from '../app/dashboard/draft';
-import { DraftResults } from '../app/dashboard/draft.result/draft.results'
-import { DraftResult } from '../app/dashboard/draft.result/draft.result'
-import { H2hResultMatchup } from '../app/dashboard/h2hresult/h2hresult.matchup';
-import { ScheduleWeek } from '../app/dashboard/h2hresult/h2hresult.schedule.week';
 import { Schedule } from '../app/dashboard/h2hresult/h2hresult.schedule';
+import { ScheduleWeek } from '../app/dashboard/h2hresult/h2hresult.schedule.week';
 import { LeagueCalendarGame } from '../app/dashboard/league.calendar/league.calendar.game';
+import { Team } from '../app/dashboard/team';
+import { TeamPlayersAdapter } from '../app/dashboard/team.players.adapter';
+import { TeamRankingCalculator } from '../app/dashboard/team.ranking.calculator';
 
 const customPostMessage: any = postMessage;
 
