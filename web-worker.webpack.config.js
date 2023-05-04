@@ -1,91 +1,107 @@
 const path = require('path');
-const ProgressPlugin = require('webpack/lib/ProgressPlugin');
-const { NoEmitOnErrorsPlugin } = require('webpack');
-const { AngularCompilerPlugin } = require('@ngtools/webpack');
+const source = path.resolve(__dirname, 'src');
+const ProgressPlugin = require('./node_modules/webpack/lib/ProgressPlugin');
+const { NoEmitOnErrorsPlugin } = require('./node_modules/webpack');
+const { AngularCompilerPlugin } = require('./node_modules/@ngtools/webpack');
 
 module.exports = {
-  "devtool": "source-map",
-  "resolve": {
-    "extensions": [
-      ".ts",
-      ".js"
+  mode: 'production',
+  devtool: "source-map",
+  resolve: {
+    extensions: [
+      '.ts',
+      '.js',
+      '.jsx'
     ],
-    "modules": [
-      "./node_modules",
-      "./node_modules"
+    modules: [
+      './node_modules',
+      './node_modules'
     ]
   },
-  "resolveLoader": {
-    "modules": [
-      "./node_modules"
+  resolveLoader: {
+    modules: [
+      './node_modules'
     ]
   },
-  "entry": {
-    "src/web-workers/web-worker.bundle": [
+  entry: {
+    'src/web-workers/web-worker.bundle': [
       './src/web-workers/web-worker.ts'
     ],
   },
 
-  "output": {
-    "path": process.cwd(),
-    "filename": "[name].js"
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: '[name].bundle.js'
   },
 
-  "watch": true,
+  watch: true,
 
-  "module": {
-    "rules": [
+  module: {
+    rules: [
       {
-        "enforce": "pre",
-        "test": /\.js$/,
-        "loader": "source-map-loader",
-        "exclude": [
+        test: /\.js$/,
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        }
+      },
+      { test: /\.json$/, loader: 'json-loader' },
+      {
+        test: /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
+        loader: './node_modules/@ngtools/webpack'
+      },
+      { test: [/\.txt$/, /\.wasm$/], use: 'raw-loader' },
+      {
+        test: /\.css$/,
+        include: source,
+        loader: 'style-loader',
+        loader: 'postcss-loader', options: { option: {} },
+        exclude: [
           /\/node_modules\//
         ]
       },
       {
-        "test": /\.json$/,
-        "loader": "json-loader"
+        test: /\.(png|svg|jpe?g|gif)$/,
+        include: /images/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'images/',
+              publicPath: 'images/'
+            }
+          }
+        ]
       },
       {
-        "test": /(?:\.ngfactory\.js|\.ngstyle\.js|\.ts)$/,
-        "loader": "@ngtools/webpack"
+        test: /\.html$/i,
+        loader: 'html-loader',
+        options: {},
+
       }
     ]
   },
-  "plugins": [
+
+  plugins: [
     new NoEmitOnErrorsPlugin(),
     new ProgressPlugin(),
     new AngularCompilerPlugin({
       tsConfigPath: 'src/tsconfig.app.json',
-      entryModule: 'src/app/app.module#AppModule',
-      sourceMap: true,
-      locale: 'en',
-      hostReplacementPaths: {
-        "environments/environment.ts": "environments/environment.ts"
-      },
-      "skipCodeGeneration": true
+      entryModule: 'src/app/app.module',
 
-    })
-    /* new AngularCompilerPlugin({
-      "mainPath": "main.ts",
-      "hostReplacementPaths": {
-        "environments/environment.ts": "environments/environment.ts"
-      },
-      "exclude": [],
-      "tsConfigPath": "src/tsconfig.app.json",
-      "skipCodeGeneration": true
-    }) */
+
+    }),
   ],
-  "node": {
-    "fs": "empty",
-    "global": true,
-    "crypto": "empty",
-    "tls": "empty",
+  node: {
+    // fs: empty,
+    global: true
+    // "crypto": "empty",
+    /* "tls": "empty",
     "net": "empty",
     "process": true,
     "module": false,
     "clearImmediate": false,
-    "setImmediate": false
+    "setImmediate": false */
   }
 };
